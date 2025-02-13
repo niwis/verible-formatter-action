@@ -43,6 +43,14 @@ runs:
       run: |
           sudo apt-get update -qq
           sudo apt-get -y install --no-install-recommends git
+    - name: Install Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.13
+        cache: 'pip'
+    - name: Install Python requirements
+      shell: bash
+      run: pip install --disable-pip-version-check --quiet --progress-bar off unidiff
     - name: Install Verible
       uses: chipsalliance/verible-actions-common/install-verible@main
       with:
@@ -91,6 +99,9 @@ runs:
         git diff --name-only > vvf_files.log
         git stash
         echo "# --- "
+
+        echo "### Annotate Diff ###"
+        ${{ github.action_path }}/annotate-diff.py < vvf_git_diff.log
 
         echo "### Run reviewdog ###"
         echo "---------------------"
