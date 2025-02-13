@@ -49,7 +49,7 @@ runs:
         github_token: ${{ inputs.github_token }}
         verible_version: ${{ inputs.verible_version }}
     - name: Install reviewdog
-      uses: chipsalliance/verible-actions-common/build-reviewdog@main
+      uses: reviewdog/action-setup@v1
     - name: Run Verible formatter with reviewdog
       shell: bash
       run: |
