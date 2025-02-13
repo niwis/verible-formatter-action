@@ -56,8 +56,16 @@ runs:
       with:
         github_token: ${{ inputs.github_token }}
         verible_version: ${{ inputs.verible_version }}
-    - name: Install reviewdog
-      uses: reviewdog/action-setup@v1
+    - name: Install dependencies
+      shell: bash
+      run: |
+          sudo apt install -y golang-go git
+    - name: Download reviewdog source code
+      shell: bash
+      run: |
+          git clone -b no-pr-no-filter-stage https://github.com/niwis/reviewdog
+          cd reviewdog
+          sudo go build -o /usr/local/bin/ ./cmd/reviewdog
     - name: Run Verible formatter with reviewdog
       shell: bash
       run: |
